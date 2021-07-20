@@ -20,7 +20,10 @@ Enum(ROAD_MOVE_TYPE);
 
 @ccclass('RoadPoint')
 export class RoadPoint extends Component {
-
+    //把枚举开放出来,那么在其他类就可以直接用
+    public static RoadPointType = ROAD_POINT_TYPE;
+    public static RoadMoveType = ROAD_MOVE_TYPE;
+    
     @property({
         type:ROAD_POINT_TYPE,
         tooltip:'路径点的类型:普通点,开始点,结束点,接客点,送客点, AI小车开始点,默认是Normal',

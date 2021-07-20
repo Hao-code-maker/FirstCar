@@ -1,32 +1,39 @@
 
 import { _decorator, Component, Node } from 'cc';
+import { Car } from './Car';
 const { ccclass, property } = _decorator;
 
 @ccclass('CarManager')
 export class CarManager extends Component {
-    // [1]
-    // dummy = '';
+    @property({
+        type:Car
+    })
+    mainCar:Car | null = null;
 
-    // [2]
-    // @property
-    // serializableDummy = 0;
+    public resetCars(points:Node[]) {
+        if(points.length <= 0){
+            console.warn('There is no points in this map');
+            return;
+        }
 
-    start () {
-        // [3]
+        this._createMainCar(points[0]);
     }
 
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
+    private _createMainCar(point : Node) {
+        if(!this.mainCar){
+            this.mainCar = this.node.children[0].getComponent(Car);
+      
+            this.mainCar?.setEntry(point);
+        }
+    }
+
+    public controlMoving(isRunning = true) {
+        if(isRunning) {
+            this.mainCar?.startRunning();
+        }else{
+            this.mainCar?.stopRunning();
+        }
+    }
 }
 
-/**
- * [1] Class member could be defined like this.
- * [2] Use `property` decorator if your want the member to be serializable.
- * [3] Your initialization goes here.
- * [4] Your update function goes here.
- *
- * Learn more about scripting: https://docs.cocos.com/creator/3.0/manual/en/scripting/
- * Learn more about CCClass: https://docs.cocos.com/creator/3.0/manual/en/scripting/ccclass.html
- * Learn more about life-cycle callbacks: https://docs.cocos.com/creator/3.0/manual/en/scripting/life-cycle-callbacks.html
- */
+
